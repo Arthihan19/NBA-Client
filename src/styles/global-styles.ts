@@ -1,29 +1,36 @@
 import { createGlobalStyle } from 'styled-components';
-
+import { StyleConstants } from './StyleConstants';
+/* istanbul ignore next */
 export const GlobalStyle = createGlobalStyle`
-  html,
-  body {
-    height: 100%;
-    width: 100%;
-  }
+    html,
+    body {
+        height: 100%;
+        width: 100%;
+        line-height: 1.5;
+    }
 
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        padding-top: ${StyleConstants.NAV_BAR_HEIGHT};
+        background-color: ${p => p.theme.background};
+    }
 
-  #root {
-    min-height: 100%;
-    min-width: 100%;
-  }
+    body.fontLoaded {
+        font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
 
-  p,
-  label {
-    font-family: Georgia, Times, 'Times New Roman', serif;
-    line-height: 1.5em;
-  }
+    p,
+    label {
+        line-height: 1.5em;
+    }
 
-  input, select {
-    font-family: inherit;
-    font-size: inherit;
-  }
+    input, select, button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    .icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
 `;
