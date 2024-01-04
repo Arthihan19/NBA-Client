@@ -2,8 +2,60 @@ import * as React from 'react';
 import styled from 'styled-components/macro';
 import { DropDownFilter } from './DropDownFilter';
 import { DateRangeFilter } from './DateRangeFilter';
+import { ScheduleGroup } from './ScheduleGroup';
 
 export function Schedule() {
+  const testItems: ScheduleItem[] = [
+    {
+      id: '1',
+      dateTimeOfMatch: '2024-05-01T10:00:00',
+      teamOneName: 'Team 1',
+      teamTwoName: 'Team 2',
+      teamOneImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamTwoImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamOneOdds: '1.5',
+      teamTwoOdds: '2.5',
+    },
+    {
+      id: '1',
+      dateTimeOfMatch: '2024-05-01T10:00:00',
+      teamOneName: 'Team 1',
+      teamTwoName: 'Team 2',
+      teamOneImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamTwoImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamOneOdds: '1.5',
+      teamTwoOdds: '2.5',
+    },
+    {
+      id: '1',
+      dateTimeOfMatch: '2024-05-01T10:00:00',
+      teamOneName: 'Team 1',
+      teamTwoName: 'Team 2',
+      teamOneImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamTwoImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamOneOdds: '1.5',
+      teamTwoOdds: '2.5',
+    },
+    {
+      id: '1',
+      dateTimeOfMatch: '2024-05-01T10:00:00',
+      teamOneName: 'Team 1',
+      teamTwoName: 'Team 2',
+      teamOneImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamTwoImage:
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
+      teamOneOdds: '1.5',
+      teamTwoOdds: '2.5',
+    },
+  ];
+
   return (
     <Wrapper>
       <ScheduleTitle>NBA Games Schedule</ScheduleTitle>
@@ -15,6 +67,7 @@ export function Schedule() {
         <DateRangeFilter />
       </FilterWrapper>
       <Separator />
+      <ScheduleGroup items={testItems} />
     </Wrapper>
   );
 }
