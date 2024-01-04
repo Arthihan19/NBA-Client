@@ -1,11 +1,12 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
+import logo from './assets/logo.png';
 
 export function Logo() {
   return (
     <Wrapper>
-      <Title>React Boilerplate</Title>
-      <Description>Create React App Template</Description>
+      <LogoImage src={logo} alt="Logo" />
+      <Title>NBA Betting</Title>
     </Wrapper>
   );
 }
@@ -13,17 +14,17 @@ export function Logo() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
+  flex: 2;
+`;
+
+const LogoImage = styled.img`
+  width: 3.5rem;
+  height: 3.5rem;
 `;
 
 const Title = styled.div`
   font-size: 1.25rem;
-  color: ${p => p.theme.text};
+  color: ${p => p.theme.textSecondary};
   font-weight: bold;
   margin-right: 1rem;
-`;
-
-const Description = styled.div`
-  font-size: 0.875rem;
-  color: ${p => p.theme.textSecondary};
-  font-weight: normal;
 `;

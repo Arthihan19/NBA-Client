@@ -1,53 +1,25 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
+import { ButtonGroup } from '../ButtonGroup';
+import { SingleButton } from '../SingleButton';
+import { Balance } from './Balance';
 
 export function Nav() {
   return (
     <Wrapper>
-      <Item
-        href=""
-        target="_blank"
-        title="Documentation Page"
-        rel="noopener noreferrer"
-      >
-        Documentation
-      </Item>
-      <Item
-        href=""
-        target="_blank"
-        title="Github Page"
-        rel="noopener noreferrer"
-      >
-        Github
-      </Item>
+      <ButtonGroup
+        buttonNames={['Games', 'Leader board', 'Bets']}
+        selectedButtonIndex={0}
+      />
+      <SingleButton title={'Log out'} filled={false} />
+      <Balance balanceAmount={'10.00'} />
     </Wrapper>
   );
 }
 
 const Wrapper = styled.nav`
   display: flex;
-  margin-right: -1rem;
-`;
-
-const Item = styled.a`
-  color: ${p => p.theme.primary};
-  cursor: pointer;
-  text-decoration: none;
-  display: flex;
-  padding: 0.25rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  justify-content: space-between;
   align-items: center;
-
-  &:hover {
-    opacity: 0.8;
-  }
-
-  &:active {
-    opacity: 0.4;
-  }
-
-  .icon {
-    margin-right: 0.25rem;
-  }
+  flex: 3;
 `;
