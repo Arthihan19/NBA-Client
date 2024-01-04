@@ -1,0 +1,53 @@
+import * as React from 'react';
+import styled from 'styled-components/macro';
+import { StyleConstants } from '../../../../styles/StyleConstants';
+
+interface Props {
+  heading: string;
+  values: string[];
+}
+
+export function DropDownFilter(props: Props) {
+  return (
+    <Wrapper>
+      <Heading>{props.heading}</Heading>
+      <Select>
+        {props.values.map((value, index) => (
+          <option key={index} value={value}>
+            {value}
+          </option>
+        ))}
+      </Select>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Heading = styled.span`
+  color: ${p => p.theme.primary};
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-right: 1em;
+`;
+
+const Select = styled.select`
+  padding: 0.4em;
+  border-radius: ${StyleConstants.BORDER_RADIUS_SMALL};
+  color: ${p => p.theme.primary};
+  border: 0.15em solid ${p => p.theme.primary};
+  font-size: 1rem;
+  font-weight: 500;
+
+  &:hover {
+    border-color: ${p => p.theme.secondary};
+  }
+
+  &:focus {
+    border-color: ${p => p.theme.secondary};
+  }
+`;

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { NavBar } from 'app/components/NavBar';
 import { PageWrapper } from 'app/components/PageWrapper';
+import { Schedule } from './Schedule';
 
 export function HomePage() {
   return (
@@ -14,7 +15,9 @@ export function HomePage() {
         />
       </Helmet>
       <NavBar />
-      <PageWrapper></PageWrapper>
+      <PageWrapper>
+        <Schedule />
+      </PageWrapper>
     </>
   );
 }
