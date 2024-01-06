@@ -3,6 +3,9 @@ import { Helmet } from 'react-helmet-async';
 import { NavBar } from 'app/components/NavBar';
 import { PageWrapper } from 'app/components/PageWrapper';
 import { Schedule } from './Schedule';
+import { Sidebar } from './Sidebar';
+import styled from 'styled-components/macro';
+import { StyleConstants } from '../../../styles/StyleConstants';
 
 export function HomePage() {
   return (
@@ -15,9 +18,23 @@ export function HomePage() {
         />
       </Helmet>
       <NavBar />
-      <PageWrapper>
-        <Schedule />
-      </PageWrapper>
+      <Wrapper>
+        <PageWrapper>
+          <Schedule />
+          <Sidebar />
+        </PageWrapper>
+      </Wrapper>
     </>
   );
 }
+
+const Wrapper = styled.header`
+  display: flex;
+
+  ${PageWrapper} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+`;

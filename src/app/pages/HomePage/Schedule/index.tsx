@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import { DropDownFilter } from './DropDownFilter';
 import { DateRangeFilter } from './DateRangeFilter';
 import { ScheduleGroup } from './ScheduleGroup';
+import { SingleButton } from '../../../components/SingleButton';
 
 export function Schedule() {
   const testItems: ScheduleItem[] = [
@@ -19,7 +20,7 @@ export function Schedule() {
       teamTwoOdds: '2.5',
     },
     {
-      id: '1',
+      id: '2',
       dateTimeOfMatch: '2024-05-01T10:00:00',
       teamOneName: 'Team 1',
       teamTwoName: 'Team 2',
@@ -31,7 +32,7 @@ export function Schedule() {
       teamTwoOdds: '2.5',
     },
     {
-      id: '1',
+      id: '3',
       dateTimeOfMatch: '2024-05-01T10:00:00',
       teamOneName: 'Team 1',
       teamTwoName: 'Team 2',
@@ -43,7 +44,7 @@ export function Schedule() {
       teamTwoOdds: '2.5',
     },
     {
-      id: '1',
+      id: '4',
       dateTimeOfMatch: '2024-05-01T10:00:00',
       teamOneName: 'Team 1',
       teamTwoName: 'Team 2',
@@ -68,6 +69,7 @@ export function Schedule() {
       </FilterWrapper>
       <Separator />
       <ScheduleGroup items={testItems} />
+      <SingleButton title={'Load more'} filled={false} />
     </Wrapper>
   );
 }
@@ -77,6 +79,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  flex: 4;
 `;
 
 const ScheduleTitle = styled.a`
@@ -96,7 +99,7 @@ const FilterWrapper = styled.div`
 `;
 
 const Separator = styled.hr`
-  width: 100%;
+  width: 95%;
   border: none;
   border-top: 0.2em solid ${p => p.theme.border};
   opacity: 0.1;

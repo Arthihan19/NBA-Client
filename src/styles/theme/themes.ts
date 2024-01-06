@@ -8,7 +8,7 @@ const lightTheme = {
   backgroundVariantRed: 'rgba(246, 198, 204)',
   backgroundVariantLight: 'rgba(253,241,243)',
   border: 'rgba(0, 0, 0)',
-  borderLight: 'rgba(0, 0, 0)',
+  borderLight: 'rgba(0, 0, 0, 0.2)',
 };
 
 const darkTheme: Theme = {
@@ -19,7 +19,7 @@ const darkTheme: Theme = {
   background: 'rgba(255, 255, 255)',
   backgroundVariantBlue: 'rgba(63, 113, 168)',
   backgroundVariantRed: 'rgba(246, 198, 204)',
-  backgroundVariantLight: 'rgba(rgb(253,241,243))',
+  backgroundVariantLight: 'rgba(253,241,243)',
   border: 'rgba(0, 0, 0)',
   borderLight: 'rgba(0, 0, 0)',
 };

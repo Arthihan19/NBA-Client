@@ -11,36 +11,13 @@ export function SingleButton(props: Props) {
   return (
     <Wrapper>
       <Item filled={props.filled}>{props.title}</Item>
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Documentation Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  Games*/}
-      {/*</Item>*/}
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Github Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  LeaderBoard*/}
-      {/*</Item>*/}
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Documentation Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  Bets*/}
-      {/*</Item>*/}
     </Wrapper>
   );
 }
 
 const Wrapper = styled.nav`
   display: flex;
+  flex: 1;
 `;
 
 const Item = styled.a<{ filled: boolean }>`

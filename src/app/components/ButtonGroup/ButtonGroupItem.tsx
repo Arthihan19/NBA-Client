@@ -40,6 +40,7 @@ export function ButtonGroupItem(props: Props) {
 
 const Wrapper = styled.nav`
   display: flex;
+  flex: 1;
 `;
 
 const Item = styled.a<{ isSelected: boolean }>`
@@ -53,6 +54,9 @@ const Item = styled.a<{ isSelected: boolean }>`
   font-size: 0.9rem;
   font-weight: bold;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 1;
 
   &:hover {
     opacity: 0.8;
