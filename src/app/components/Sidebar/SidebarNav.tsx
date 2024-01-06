@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import { ButtonGroup } from '../../../components/ButtonGroup';
-import { useThemeSlice } from '../../../../styles/theme/slice';
+import { ButtonGroup } from '../ButtonGroup';
+import { useThemeSlice } from '../../../styles/theme/slice';
 import { useSelector } from 'react-redux';
-import { selectTheme } from '../../../../styles/theme/slice/selectors';
+import { selectTheme } from '../../../styles/theme/slice/selectors';
 
 export function SidebarNav() {
   useThemeSlice();

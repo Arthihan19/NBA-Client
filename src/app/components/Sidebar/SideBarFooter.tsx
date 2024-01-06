@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import reload from './assets/reload.png';
-import { SingleButton } from '../../../components/SingleButton';
-import { StyleConstants } from '../../../../styles/StyleConstants';
+import { SingleButton } from '../SingleButton';
+import { StyleConstants } from '../../../styles/StyleConstants';
 
 export function SideBarFooter() {
   return (

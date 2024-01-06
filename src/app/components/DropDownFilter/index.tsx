@@ -1,13 +1,13 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import { StyleConstants } from '../../../../styles/StyleConstants';
+import { StyleConstants } from '../../../styles/StyleConstants';
 
 interface Props {
   heading: string;
   values: string[];
 }
 
-export function DropDownFilter(props: Props) {
+export function Index(props: Props) {
   return (
     <Wrapper>
       <Heading>{props.heading}</Heading>

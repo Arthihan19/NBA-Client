@@ -2,11 +2,11 @@ import * as React from 'react';
 import styled from 'styled-components/macro';
 import { Index } from '../../../components/DropDownFilter';
 import { DateRangeFilter } from '../../../components/DateRangeFilter';
-import { ScheduleGroup } from './ScheduleGroup';
 import { SingleButton } from '../../../components/SingleButton';
+import { HistoryGroup } from './HistoryGroup';
 
-export function Schedule() {
-  const testItems: ScheduleItem[] = [
+export function History() {
+  const testItems: BetHistoryItem[] = [
     {
       id: '1',
       dateTimeOfMatch: '2024-05-01T10:00:00',
@@ -18,6 +18,9 @@ export function Schedule() {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
       teamOneOdds: '1.5',
       teamTwoOdds: '2.5',
+      teamSelected: 'Team 1',
+      amountBet: '10.00',
+      status: 'Won',
     },
     {
       id: '2',
@@ -30,6 +33,9 @@ export function Schedule() {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
       teamOneOdds: '1.5',
       teamTwoOdds: '2.5',
+      teamSelected: 'Team 1',
+      amountBet: '10.00',
+      status: 'Lost',
     },
     {
       id: '3',
@@ -42,6 +48,9 @@ export function Schedule() {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
       teamOneOdds: '1.5',
       teamTwoOdds: '2.5',
+      teamSelected: 'Team 1',
+      amountBet: '10.00',
+      status: 'Pending',
     },
     {
       id: '4',
@@ -54,21 +63,21 @@ export function Schedule() {
         'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
       teamOneOdds: '1.5',
       teamTwoOdds: '2.5',
+      teamSelected: 'Team 1',
+      amountBet: '10.00',
+      status: 'Won',
     },
   ];
 
   return (
     <Wrapper>
-      <ScheduleTitle>NBA Games Schedule</ScheduleTitle>
+      <ScheduleTitle>Betting History</ScheduleTitle>
       <FilterWrapper>
-        <Index
-          heading={'Team filter'}
-          values={['Team 1', 'Team 2', 'Team 3']}
-        />
+        <Index heading={'Result filter'} values={['Won', 'Lost', 'Pending']} />
         <DateRangeFilter />
       </FilterWrapper>
       <Separator />
-      <ScheduleGroup items={testItems} />
+      <HistoryGroup items={testItems} />
       <SingleButton title={'Load more'} filled={false} />
     </Wrapper>
   );

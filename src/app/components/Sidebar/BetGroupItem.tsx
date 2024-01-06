@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import binIcon from './assets/bin.png';
-import { StyleConstants } from '../../../../styles/StyleConstants';
+import { StyleConstants } from '../../../styles/StyleConstants';
 
 interface Props {
   item: BetSlipItem;

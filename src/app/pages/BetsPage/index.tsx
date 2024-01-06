@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { NavBar } from 'app/components/NavBar';
 import { PageWrapper } from 'app/components/PageWrapper';
-import { Schedule } from './Schedule';
-import { Sidebar } from '../../components/Sidebar';
 import styled from 'styled-components/macro';
+import { Sidebar } from '../../components/Sidebar';
+import { History } from './History';
 
-export function HomePage() {
+export function BetsPage() {
   return (
     <>
       <Helmet>
@@ -19,7 +19,7 @@ export function HomePage() {
       <NavBar />
       <Wrapper>
         <PageWrapper>
-          <Schedule />
+          <History />
           <Sidebar />
         </PageWrapper>
       </Wrapper>
