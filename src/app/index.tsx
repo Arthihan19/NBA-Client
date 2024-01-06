@@ -16,6 +16,8 @@ import { HomePage } from './pages/HomePage/Loadable';
 import { NotFoundPage } from './pages/NotFoundPage/Loadable';
 import { useTranslation } from 'react-i18next';
 import { BetsPage } from './pages/BetsPage/Loadable';
+import { LoginPage } from './pages/LoginPage/Loadable';
+import { LeaderBoardPage } from './pages/LeaderboardPage/Loadable';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -30,8 +32,11 @@ export function App() {
       </Helmet>
 
       <Routes>
-        <Route path="/" element={<BetsPage />} />
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/Singup" element={<LoginPage />} />
+        <Route path="/history" element={<BetsPage />} />
+        <Route path="/leaderboard" element={<LeaderBoardPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <GlobalStyle />
