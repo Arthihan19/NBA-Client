@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { NavBar } from 'app/components/NavBar';
 import styled from 'styled-components/macro';
-import { Login } from './Login';
+import { SignUp } from './SignUp';
 
-export function LoginPage() {
+export function SignUpPage() {
   return (
     <>
       <Helmet>
@@ -16,7 +16,7 @@ export function LoginPage() {
       </Helmet>
       <NavBar />
       <Wrapper>
-        <Login />
+        <SignUp />
       </Wrapper>
     </>
   );

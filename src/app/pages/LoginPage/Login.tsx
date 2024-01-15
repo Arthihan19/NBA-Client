@@ -1,35 +1,84 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import danger from './assets/danger.png';
-import emailIcon from './assets/email.png';
-import lockIcon from './assets/lock.png';
 import { StyleConstants } from '../../../styles/StyleConstants';
+import { useUserSlice } from '../../Authentication/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { selectUser } from '../../Authentication/slice/selectors';
+import { Spinner } from '../../components/Spinner';
 
 interface Props {}
 
 export function Login(props: Props) {
+  const navigate = useNavigate();
+  const { actions } = useUserSlice();
+  const dispatch = useDispatch();
+  const userState = useSelector(selectUser);
+
+  const [showError, setShowError] = React.useState(false);
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  React.useEffect(() => {
+    if (userState.user !== null) {
+      navigate('/');
+    }
+  }, [userState.user, navigate]);
+
+  const onSubmit = () => {
+    setShowError(true);
+    dispatch(actions.signInRequest({ username, password }));
+  };
+
+  const onSignUp = () => {
+    navigate('/signup');
+  };
+
+  const handleUsernameChange = e => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = e => {
+    setPassword(e.target.value);
+  };
+
   return (
     <Wrapper>
       <SignInSpan>Sign In</SignInSpan>
       <MainInputWrapper>
-        <InputHeaderSpan>Email</InputHeaderSpan>
-        <Input type="text" placeholder="Enter your email" />
+        <InputHeaderSpan>Username</InputHeaderSpan>
+        <Input
+          type="text"
+          placeholder="Enter your username"
+          onChange={handleUsernameChange}
+        />
       </MainInputWrapper>
       <MainInputWrapper>
         <InputHeaderSpan>Password</InputHeaderSpan>
-        <Input type="text" placeholder="Enter your password" />
+        <Input
+          type="password" // Change type to 'password' for security
+          placeholder="Enter your password"
+          onChange={handlePasswordChange}
+        />
       </MainInputWrapper>
-      <RememberMeWrapper>
-        <RememberMeCheckBox />
-        <RememberMeSpan>Remember me</RememberMeSpan>
-      </RememberMeWrapper>
-      <SignInButton>Sign In</SignInButton>
-      <OrSpan>Or</OrSpan>
-      <SignUpButton>Sign Up</SignUpButton>
-      <ErrorMessageWrapper>
-        <DangerIcon src={danger} />
-        <ErrorMessageSpan>Invalid email</ErrorMessageSpan>
-      </ErrorMessageWrapper>
+      {userState.loading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        <>
+          <SignInButton onClick={onSubmit}>Sign In</SignInButton>
+          <OrSpan>OR</OrSpan>
+          <SignUpButton onClick={onSignUp}>Sign Up</SignUpButton>
+        </>
+      )}
+      {userState.error && showError && (
+        <ErrorMessageWrapper>
+          <DangerIcon src={danger} />
+          <ErrorMessageSpan>{userState.error}</ErrorMessageSpan>
+        </ErrorMessageWrapper>
+      )}
     </Wrapper>
   );
 }
@@ -43,6 +92,13 @@ const Wrapper = styled.div`
   border: 1px solid ${p => p.theme.border};
   box-shadow: 0 0 0.5em ${p => p.theme.border};
   padding: 2em;
+`;
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
 `;
 
 const SignInSpan = styled.span`
@@ -85,26 +141,6 @@ const Input = styled.input`
   }
 `;
 
-const RememberMeWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 1em;
-  margin-bottom: 1em;
-`;
-
-const RememberMeCheckBox = styled.input.attrs({ type: 'checkbox' })`
-  margin-right: 0.5em;
-  height: 1em;
-  width: 1em;
-  cursor: pointer;
-`;
-
-const RememberMeSpan = styled.span`
-  color: ${p => p.theme.textSecondary};
-  font-size: 1rem;
-`;
-
 const SignInButton = styled.a`
   color: ${p => p.theme.background};
   border: 1px solid ${p => p.theme.secondary};
@@ -117,6 +153,7 @@ const SignInButton = styled.a`
   font-size: 1rem;
   font-weight: bold;
   align-items: center;
+  margin-top: 2em;
 
   &:hover {
     opacity: 0.8;
