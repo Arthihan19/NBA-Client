@@ -11,11 +11,13 @@ import { LoginPage } from './pages/LoginPage/Loadable';
 import { LeaderBoardPage } from './pages/LeaderboardPage/Loadable';
 import { SignUpPage } from './pages/SignupPage/Loadable';
 import PrivateRoute from './components/PrivateRoute';
+import { useUserSlice } from './Authentication/slice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { useUserSlice } from './Authentication/slice';
 
 export function App() {
+  const { i18n } = useTranslation();
+
   const { actions } = useUserSlice();
   const dispatch = useDispatch();
 
@@ -23,7 +25,6 @@ export function App() {
     dispatch(actions.getMeRequest());
   }, [dispatch, actions]);
 
-  const { i18n } = useTranslation();
   return (
     <BrowserRouter>
       <Helmet

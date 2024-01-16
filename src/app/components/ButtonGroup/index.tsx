@@ -3,17 +3,21 @@ import styled from 'styled-components/macro';
 import { ButtonGroupItem } from './ButtonGroupItem';
 
 interface Props {
-  buttonNames: string[];
+  buttonOptions: {
+    title: string;
+    onClick: () => void;
+  }[];
   selectedButtonIndex: number;
 }
 
 export function ButtonGroup(props: Props) {
   return (
     <Wrapper>
-      {props.buttonNames.map((buttonName, index) => (
+      {props.buttonOptions.map((buttonOption, index) => (
         <ButtonGroupItem
-          key={buttonName}
-          title={buttonName}
+          key={index}
+          title={buttonOption.title}
+          onClick={buttonOption.onClick}
           isSelected={index === props.selectedButtonIndex}
         />
       ))}

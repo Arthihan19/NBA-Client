@@ -12,10 +12,7 @@ export function SidebarNav() {
 
   return (
     <Wrapper>
-      <ButtonGroup
-        buttonNames={['Bet slip', 'Pending bets']}
-        selectedButtonIndex={0}
-      />
+      <ButtonGroup buttonOptions={[]} selectedButtonIndex={0} />
     </Wrapper>
   );
 }

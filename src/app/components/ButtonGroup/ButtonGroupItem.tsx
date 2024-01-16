@@ -4,12 +4,15 @@ import styled from 'styled-components/macro';
 interface Props {
   title: string;
   isSelected: boolean;
+  onClick?: () => void;
 }
 
 export function ButtonGroupItem(props: Props) {
   return (
     <Wrapper>
-      <Item isSelected={props.isSelected}>{props.title}</Item>
+      <Item onClick={props.onClick} isSelected={props.isSelected}>
+        {props.title}
+      </Item>
       {/*<Item*/}
       {/*  href=""*/}
       {/*  target="_blank"*/}

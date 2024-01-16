@@ -7,7 +7,7 @@ interface Props {
   values: string[];
 }
 
-export function Index(props: Props) {
+export function DropDownFilter(props: Props) {
   return (
     <Wrapper>
       <Heading>{props.heading}</Heading>
@@ -42,6 +42,7 @@ const Select = styled.select`
   border: 0.15em solid ${p => p.theme.primary};
   font-size: 1rem;
   font-weight: 500;
+  text-align: center;
 
   &:hover {
     border-color: ${p => p.theme.secondary};

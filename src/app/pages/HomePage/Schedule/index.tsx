@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import { Index } from '../../../components/DropDownFilter';
 import { DateRangeFilter } from '../../../components/DateRangeFilter';
 import { ScheduleGroup } from './ScheduleGroup';
 import { SingleButton } from '../../../components/SingleButton';
+import { DropDownFilter } from '../../../components/DropDownFilter';
 
 export function Schedule() {
   const testItems: ScheduleItem[] = [
@@ -61,11 +61,49 @@ export function Schedule() {
     <Wrapper>
       <ScheduleTitle>NBA Games Schedule</ScheduleTitle>
       <FilterWrapper>
-        <Index
-          heading={'Team filter'}
-          values={['Team 1', 'Team 2', 'Team 3']}
-        />
-        <DateRangeFilter />
+        <FilterItemWrapper>
+          <DropDownFilter
+            heading={'Team filter'}
+            values={[
+              'Boston Celtics',
+              'Brooklyn Nets',
+              'New York Knicks',
+              'Philadelphia 76ers',
+              'Toronto Raptors',
+              'Chicago Bulls',
+              'Cleveland Cavaliers',
+              'Detroit Pistons',
+              'Indiana Pacers',
+              'Milwaukee Bucks',
+              'Atlanta Hawks',
+              'Charlotte Hornets',
+              'Miami Heat',
+              'Orlando Magic',
+              'Washington Wizards',
+              'Denver Nuggets',
+              'Minnesota Timberwolves',
+              'Oklahoma City Thunder',
+              'Portland Trail Blazers',
+              'Utah Jazz',
+              'Golden State Warriors',
+              'LA Clippers',
+              'Los Angeles Lakers',
+              'Phoenix Suns',
+              'Sacramento Kings',
+              'Dallas Mavericks',
+              'Houston Rockets',
+              'Memphis Grizzlies',
+              'New Orleans Pelicans',
+              'San Antonio Spurs',
+            ]}
+          />
+        </FilterItemWrapper>
+        <FilterItemWrapper>
+          <DateRangeFilter />
+        </FilterItemWrapper>
+        <FilterItemWrapper>
+          <SingleButton title={'Search'} filled={true} />
+        </FilterItemWrapper>
       </FilterWrapper>
       <Separator />
       <ScheduleGroup items={testItems} />
@@ -82,6 +120,11 @@ const Wrapper = styled.div`
   flex: 4;
 `;
 
+const FilterItemWrapper = styled.div`
+  margin-left: 2em;
+  margin-right: 2em;
+`;
+
 const ScheduleTitle = styled.a`
   color: ${p => p.theme.secondary};
   text-decoration: none;
@@ -94,8 +137,7 @@ const ScheduleTitle = styled.a`
 const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
+  justify-content: center;
 `;
 
 const Separator = styled.hr`

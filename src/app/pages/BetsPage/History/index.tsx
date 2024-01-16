@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import { Index } from '../../../components/DropDownFilter';
+import { DropDownFilter } from '../../../components/DropDownFilter';
 import { DateRangeFilter } from '../../../components/DateRangeFilter';
 import { SingleButton } from '../../../components/SingleButton';
 import { HistoryGroup } from './HistoryGroup';
@@ -73,7 +73,10 @@ export function History() {
     <Wrapper>
       <ScheduleTitle>Betting History</ScheduleTitle>
       <FilterWrapper>
-        <Index heading={'Result filter'} values={['Won', 'Lost', 'Pending']} />
+        <DropDownFilter
+          heading={'Result filter'}
+          values={['Won', 'Lost', 'Pending']}
+        />
         <DateRangeFilter />
       </FilterWrapper>
       <Separator />

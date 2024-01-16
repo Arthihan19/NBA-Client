@@ -70,6 +70,8 @@ function* getMeSaga() {
       credentials: 'include',
     });
 
+    console.log(response);
+
     yield put(userActions.getMeSuccess(response));
   } catch (error: any) {
     if (error.response) {
@@ -86,19 +88,32 @@ function* getMeSaga() {
   }
 }
 
-function clearAuthCookies() {
-  document.cookie = 'accessToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-  document.cookie = 'refreshToken=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
-}
-
 function* logoutSaga() {
-  clearAuthCookies();
-  yield put(userActions.logout());
+  try {
+    yield call(request, 'http://localhost:8080/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+
+    yield put(userActions.logOutSuccess());
+  } catch (error: any) {
+    if (error.response) {
+      try {
+        const errorBody = yield call([error.response, 'json']);
+
+        yield put(userActions.logOutFailure(errorBody.message));
+      } catch (e) {
+        yield put(userActions.logOutFailure(error.message));
+      }
+    } else {
+      yield put(userActions.logOutFailure(error.message));
+    }
+  }
 }
 
 export default function* userSaga() {
   yield takeLatest(userActions.signInRequest.type, signInSaga);
   yield takeLatest(userActions.signUpRequest.type, signUpSaga);
   yield takeLatest(userActions.getMeRequest.type, getMeSaga);
-  yield takeLatest(userActions.logout.type, logoutSaga);
+  yield takeLatest(userActions.logoutRequest.type, logoutSaga);
 }

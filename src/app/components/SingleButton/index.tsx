@@ -5,12 +5,15 @@ import { StyleConstants } from '../../../styles/StyleConstants';
 interface Props {
   title: string;
   filled: boolean;
+  onClick?: () => void;
 }
 
 export function SingleButton(props: Props) {
   return (
     <Wrapper>
-      <Item filled={props.filled}>{props.title}</Item>
+      <Item onClick={props.onClick} filled={props.filled}>
+        {props.title}
+      </Item>
     </Wrapper>
   );
 }

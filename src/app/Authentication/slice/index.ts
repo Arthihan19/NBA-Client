@@ -7,7 +7,7 @@ import { UserState } from './types';
 export const initialState: UserState = {
   user: null,
   error: null,
-  loading: true,
+  loading: false,
 };
 
 const slice = createSlice({
@@ -55,10 +55,18 @@ const slice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    logout(state) {
-      state.user = null;
-      state.loading = false;
+    logoutRequest(state) {
+      state.loading = true;
       state.error = null;
+    },
+    logOutSuccess(state) {
+      state.loading = false;
+      state.user = null;
+      state.error = null;
+    },
+    logOutFailure(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });
