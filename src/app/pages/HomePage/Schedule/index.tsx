@@ -4,58 +4,93 @@ import { DateRangeFilter } from '../../../components/DateRangeFilter';
 import { ScheduleGroup } from './ScheduleGroup';
 import { SingleButton } from '../../../components/SingleButton';
 import { DropDownFilter } from '../../../components/DropDownFilter';
+import { useDispatch, useSelector } from 'react-redux';
+import { useBetSlice } from '../../BetsPage/slice';
+import { selectBet } from '../../BetsPage/slice/selectors';
+import { BetState, BetStateScheduleItem } from '../../BetsPage/slice/types';
 
 export function Schedule() {
-  const testItems: ScheduleItem[] = [
-    {
-      id: '1',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-    },
-    {
-      id: '2',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-    },
-    {
-      id: '3',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-    },
-    {
-      id: '4',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-    },
-  ];
+  const { schedule } = useSelector(selectBet);
+  const { actions } = useBetSlice();
+  const dispatch = useDispatch();
+
+  const [pageNumber, setPageNumber] = React.useState<number>(0);
+
+  const [loadedSchedule, setLoadedSchedule] = React.useState<ScheduleItem[]>(
+    [],
+  );
+  const [beforeDate, setBeforeDate] = React.useState<Date>();
+  const [afterDate, setAfterDate] = React.useState<Date>();
+
+  const [teamName, setTeamName] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (
+      loadedSchedule.length > 0 &&
+      loadedSchedule.every(item => schedule.includes(item))
+    ) {
+      return;
+    }
+
+    setPageNumber(pageNumber + 1);
+    setLoadedSchedule([...loadedSchedule, ...mapItems(schedule)]);
+  }, [schedule]);
+
+  React.useEffect(() => {
+    if (teamName === 'All teams') {
+      setTeamName('');
+    }
+
+    setPageNumber(0);
+    setLoadedSchedule([]);
+
+    dispatch(
+      actions.fetchSchedule({
+        currentPage: 0,
+        pageSize: 20,
+        beforeDate: beforeDate,
+        afterDate: afterDate,
+        teamName: teamName,
+      }),
+    );
+  }, [beforeDate, afterDate, teamName]);
+
+  const fetchResults = () => {
+    dispatch(
+      actions.fetchSchedule({
+        currentPage: pageNumber,
+        pageSize: 20,
+        beforeDate: beforeDate,
+        afterDate: afterDate,
+        teamName: teamName,
+      }),
+    );
+  };
+
+  const mapItems = (betSchedule: BetStateScheduleItem[]) => {
+    const newItems = [...betSchedule];
+
+    return newItems.map(item => {
+      const scheduleItem: ScheduleItem = {
+        id: item.id,
+        teamOne: item.teamOne,
+        teamOneId: item.teamOneId,
+        teamOneOdds: item.teamOneOdds,
+        teamOneImage: determineImage(item.teamOne),
+        teamTwo: item.teamTwo,
+        teamTwoId: item.teamTwoId,
+        teamTwoOdds: item.teamTwoOdds,
+        teamTwoImage: determineImage(item.teamTwo),
+        matchDate: item.matchDate,
+      };
+
+      return scheduleItem;
+    });
+  };
+
+  const determineImage = (teamName: string) => {
+    return require(`../../../teamImages/${teamName}.png`);
+  };
 
   return (
     <Wrapper>
@@ -65,6 +100,7 @@ export function Schedule() {
           <DropDownFilter
             heading={'Team filter'}
             values={[
+              'All teams',
               'Boston Celtics',
               'Brooklyn Nets',
               'New York Knicks',
@@ -96,18 +132,29 @@ export function Schedule() {
               'New Orleans Pelicans',
               'San Antonio Spurs',
             ]}
+            onChange={value => setTeamName(value)}
           />
         </FilterItemWrapper>
         <FilterItemWrapper>
-          <DateRangeFilter />
+          <DateRangeFilter
+            onBeforeChange={value => setBeforeDate(new Date(value))}
+            onAfterChange={value => setAfterDate(new Date(value))}
+          />
         </FilterItemWrapper>
         <FilterItemWrapper>
           <SingleButton title={'Search'} filled={true} />
         </FilterItemWrapper>
       </FilterWrapper>
       <Separator />
-      <ScheduleGroup items={testItems} />
-      <SingleButton title={'Load more'} filled={false} />
+      <ScheduleGroup items={loadedSchedule} />
+      <SingleButton
+        title={'Load more'}
+        filled={false}
+        onClick={() => {
+          setPageNumber(pageNumber + 1);
+          fetchResults();
+        }}
+      />
     </Wrapper>
   );
 }

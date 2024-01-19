@@ -9,10 +9,8 @@ interface Props {
 
 export function ScheduleGroupItem(props: Props) {
   const formatDateTime = dateTime => {
-    // Parse the date as UTC
-    const date = new Date(dateTime + 'Z'); // Adding 'Z' ensures it's interpreted as UTC
+    const date = new Date(dateTime);
 
-    // Format the time and date as "HH:MM UTC DD/MM/YYYY"
     const timeString =
       date.getUTCHours().toString().padStart(2, '0') +
       ':' +
@@ -33,25 +31,25 @@ export function ScheduleGroupItem(props: Props) {
         <TeamContentWrapper>
           <BetOverlay>
             <PlusIcon src={plusIcon} alt="Add bet" />
-            <AddBetText>Add bet for {props.item.teamOneName}</AddBetText>
+            <AddBetText>Add bet for {props.item.teamOne}</AddBetText>
           </BetOverlay>
           <TeamInnerWrapper>
             <TeamImage src={props.item.teamOneImage} alt="Team 1" />
-            <TeamNameSpan>{props.item.teamOneName}</TeamNameSpan>
+            <TeamNameSpan>{props.item.teamOne}</TeamNameSpan>
           </TeamInnerWrapper>
         </TeamContentWrapper>
         <MatchInfoWrapper>
-          <DateSpan>{formatDateTime(props.item.dateTimeOfMatch)}</DateSpan>
+          <DateSpan>{formatDateTime(props.item.matchDate)}</DateSpan>
           <VsSpan>VS</VsSpan>
         </MatchInfoWrapper>
         <TeamContentWrapper>
           <BetOverlay>
             <PlusIcon src={plusIcon} alt="Add bet" />
-            <AddBetText>Add bet for {props.item.teamTwoName}</AddBetText>
+            <AddBetText>Add bet for {props.item.teamTwo}</AddBetText>
           </BetOverlay>
           <TeamInnerWrapper>
             <TeamImage src={props.item.teamTwoImage} alt="Team 2" />
-            <TeamNameSpan>{props.item.teamTwoName}</TeamNameSpan>
+            <TeamNameSpan>{props.item.teamTwo}</TeamNameSpan>
           </TeamInnerWrapper>
         </TeamContentWrapper>
       </MainContentWrapper>

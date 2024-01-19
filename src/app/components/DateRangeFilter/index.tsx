@@ -2,7 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components/macro';
 import { StyleConstants } from '../../../styles/StyleConstants';
 
-interface Props {}
+interface Props {
+  onBeforeChange?: (value: string) => void;
+  onAfterChange?: (value: string) => void;
+}
 
 export function DateRangeFilter(props: Props) {
   const today = new Date();
@@ -18,6 +21,9 @@ export function DateRangeFilter(props: Props) {
       <Heading>Date Range Filter</Heading>
       <DateRangeWrapper>
         <DateInput
+          onChange={e =>
+            props.onAfterChange && props.onAfterChange(e.target.value)
+          }
           type="date"
           defaultValue={formatDate(oneDayAgo)}
           min={formatDate(oneDayAgo)}
@@ -26,6 +32,9 @@ export function DateRangeFilter(props: Props) {
         />
         <Span>to</Span>
         <DateInput
+          onChange={e =>
+            props.onBeforeChange && props.onBeforeChange(e.target.value)
+          }
           type="date"
           min={formatDate(oneDayAgo)}
           max={formatDate(oneMonthLater)}

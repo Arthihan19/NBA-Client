@@ -1,10 +1,12 @@
 interface ScheduleItem {
   id: string;
-  dateTimeOfMatch: string;
-  teamOneName: string;
-  teamTwoName: string;
-  teamOneImage: string;
-  teamTwoImage: string;
+  teamOne: string;
+  teamOneId: string;
   teamOneOdds: string;
+  teamOneImage: string;
+  teamTwo: string;
+  teamTwoId: string;
   teamTwoOdds: string;
+  teamTwoImage: string;
+  matchDate: string;
 }

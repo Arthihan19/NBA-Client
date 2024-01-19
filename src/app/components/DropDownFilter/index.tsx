@@ -5,13 +5,14 @@ import { StyleConstants } from '../../../styles/StyleConstants';
 interface Props {
   heading: string;
   values: string[];
+  onChange?: (value: string) => void;
 }
 
 export function DropDownFilter(props: Props) {
   return (
     <Wrapper>
       <Heading>{props.heading}</Heading>
-      <Select>
+      <Select onChange={e => props.onChange && props.onChange(e.target.value)}>
         {props.values.map((value, index) => (
           <option key={index} value={value}>
             {value}
