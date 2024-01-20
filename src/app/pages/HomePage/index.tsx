@@ -35,5 +35,6 @@ const Wrapper = styled.header`
     align-items: flex-start;
     justify-content: space-between;
     flex-direction: row;
+    width: 100%;
   }
 `;

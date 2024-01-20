@@ -1,6 +1,7 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { request } from 'utils/request';
 import { betActions as actions } from './index';
+import { BetSlipItem } from './types';
 
 function* fetchScheduleSaga(action) {
   try {
@@ -24,7 +25,6 @@ function* fetchScheduleSaga(action) {
 
     yield put(actions.fetchScheduleSuccess(response));
   } catch (error: any) {
-    // console.log(error);
     if (error.response) {
       const errorBody = yield call([error.response, 'json']);
       yield put(actions.fetchScheduleFailure(errorBody.message));
@@ -34,6 +34,37 @@ function* fetchScheduleSaga(action) {
   }
 }
 
+function* postBetSlip(action) {
+  try {
+    const url = `http://localhost:8080/api/bets`;
+
+    const response = yield call(request, url, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(
+        action.payload.map(bet => ({
+          gameId: bet.id,
+          teamId: bet.betTeamId,
+          betAmount: bet.betAmount,
+          odds:
+            bet.betTeamId === bet.teamOneId ? bet.teamOneOdds : bet.teamTwoOdds,
+        })),
+      ),
+    });
+
+    yield put(actions.sendBetSlipRequestSuccess(response));
+  } catch (error: any) {
+    if (error.response) {
+      const errorBody = yield call([error.response, 'json']);
+      yield put(actions.sendBetSlipRequestFailure(errorBody.error));
+    } else {
+      yield put(actions.sendBetSlipRequestFailure(error.message));
+    }
+  }
+}
+
 export function* betSaga() {
   yield takeLatest(actions.fetchSchedule.type, fetchScheduleSaga);
+  yield takeLatest(actions.sendBetSlipRequest.type, postBetSlip);
 }

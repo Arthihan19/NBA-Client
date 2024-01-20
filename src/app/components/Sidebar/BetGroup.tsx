@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import { BetGroupItem } from './BetGroupItem';
+import { BetSlipItem } from '../../pages/HomePage/slice/types';
 
 interface Props {
   items: BetSlipItem[];

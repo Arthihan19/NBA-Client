@@ -1,6 +1,6 @@
 import { ThemeState } from 'styles/theme/slice/types';
 import { UserState } from 'app/Authentication/slice/types';
-import { BetState } from 'app/pages/BetsPage/slice/types';
+import { BetState } from 'app/pages/HomePage/slice/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*

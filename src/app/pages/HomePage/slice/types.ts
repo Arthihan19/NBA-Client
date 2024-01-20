@@ -1,6 +1,7 @@
 /* --- STATE --- */
 export interface BetState {
   schedule: BetStateScheduleItem[];
+  betSlip: BetSlipItem[];
   loading: boolean;
   error: string | null;
   currentPage: number;
@@ -8,6 +9,11 @@ export interface BetState {
   beforeDate: string | null;
   afterDate: string | null;
   teamName: string | null;
+}
+
+export interface BetSlipItem extends BetStateScheduleItem {
+  betAmount: string;
+  betTeamId: string;
 }
 
 export interface BetStateScheduleItem {

@@ -6,6 +6,7 @@ import { BetState } from './types';
 
 export const initialState: BetState = {
   schedule: [],
+  betSlip: [],
   loading: false,
   error: null,
   currentPage: 0,
@@ -35,6 +36,46 @@ const slice = createSlice({
     fetchScheduleFailure(state, action) {
       state.error = action.payload;
       state.loading = false;
+    },
+    addToBetSlip(state, action) {
+      if (
+        state.betSlip.some(item => item.id === action.payload.id) ||
+        !action.payload.teamOneOdds
+      ) {
+        return;
+      }
+
+      state.betSlip.push(action.payload);
+    },
+    removeFromBetSlip(state, action) {
+      state.betSlip = state.betSlip.filter(
+        item => item.id !== action.payload.id,
+      );
+    },
+    updateBetSlip(state, action) {
+      const { id, betAmount, betTeamId } = action.payload;
+      state.betSlip = state.betSlip.map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            betAmount,
+            betTeamId,
+          };
+        }
+        return item;
+      });
+    },
+    sendBetSlipRequest(state, action) {
+      state.loading = true;
+      state.error = null;
+    },
+    sendBetSlipRequestSuccess(state, action) {
+      state.loading = false;
+      state.betSlip = [];
+    },
+    sendBetSlipRequestFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });

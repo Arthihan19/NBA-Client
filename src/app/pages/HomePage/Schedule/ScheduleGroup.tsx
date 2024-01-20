@@ -4,13 +4,18 @@ import { ScheduleGroupItem } from './ScheduleGroupItem';
 
 interface Props {
   items: ScheduleItem[];
+  onClick?: (item: ScheduleItem, betTeamId) => void;
 }
 
 export function ScheduleGroup(props: Props) {
   return (
     <Wrapper>
       {props.items.map((item, index) => (
-        <ScheduleGroupItem key={item.id} item={item} />
+        <ScheduleGroupItem
+          key={item.id}
+          item={item}
+          onClick={betTeamId => props.onClick && props.onClick(item, betTeamId)}
+        />
       ))}
     </Wrapper>
   );

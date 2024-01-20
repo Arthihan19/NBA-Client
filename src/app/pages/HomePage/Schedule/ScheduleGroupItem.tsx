@@ -5,6 +5,7 @@ import plusIcon from './assets/plus.png';
 
 interface Props {
   item: ScheduleItem;
+  onClick?: (betTeamId: string) => void;
 }
 
 export function ScheduleGroupItem(props: Props) {
@@ -29,7 +30,9 @@ export function ScheduleGroupItem(props: Props) {
     <Wrapper>
       <MainContentWrapper>
         <TeamContentWrapper>
-          <BetOverlay>
+          <BetOverlay
+            onClick={() => props.onClick && props.onClick(props.item.teamOneId)}
+          >
             <PlusIcon src={plusIcon} alt="Add bet" />
             <AddBetText>Add bet for {props.item.teamOne}</AddBetText>
           </BetOverlay>
@@ -43,7 +46,9 @@ export function ScheduleGroupItem(props: Props) {
           <VsSpan>VS</VsSpan>
         </MatchInfoWrapper>
         <TeamContentWrapper>
-          <BetOverlay>
+          <BetOverlay
+            onClick={() => props.onClick && props.onClick(props.item.teamTwoId)}
+          >
             <PlusIcon src={plusIcon} alt="Add bet" />
             <AddBetText>Add bet for {props.item.teamTwo}</AddBetText>
           </BetOverlay>

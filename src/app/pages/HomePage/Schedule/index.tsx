@@ -5,9 +5,9 @@ import { ScheduleGroup } from './ScheduleGroup';
 import { SingleButton } from '../../../components/SingleButton';
 import { DropDownFilter } from '../../../components/DropDownFilter';
 import { useDispatch, useSelector } from 'react-redux';
-import { useBetSlice } from '../../BetsPage/slice';
-import { selectBet } from '../../BetsPage/slice/selectors';
-import { BetState, BetStateScheduleItem } from '../../BetsPage/slice/types';
+import { useBetSlice } from '../slice';
+import { selectBet } from '../slice/selectors';
+import { BetSlipItem, BetStateScheduleItem } from '../slice/types';
 
 export function Schedule() {
   const { schedule } = useSelector(selectBet);
@@ -92,6 +92,16 @@ export function Schedule() {
     return require(`../../../teamImages/${teamName}.png`);
   };
 
+  const onAddBetClick = (item: ScheduleItem, betTeamId: string) => {
+    const betItem: BetSlipItem = {
+      ...item,
+      betTeamId: betTeamId,
+      betAmount: '0.00',
+    };
+
+    dispatch(actions.addToBetSlip(betItem));
+  };
+
   return (
     <Wrapper>
       <ScheduleTitle>NBA Games Schedule</ScheduleTitle>
@@ -141,12 +151,9 @@ export function Schedule() {
             onAfterChange={value => setAfterDate(new Date(value))}
           />
         </FilterItemWrapper>
-        <FilterItemWrapper>
-          <SingleButton title={'Search'} filled={true} />
-        </FilterItemWrapper>
       </FilterWrapper>
       <Separator />
-      <ScheduleGroup items={loadedSchedule} />
+      <ScheduleGroup items={loadedSchedule} onClick={onAddBetClick} />
       <SingleButton
         title={'Load more'}
         filled={false}

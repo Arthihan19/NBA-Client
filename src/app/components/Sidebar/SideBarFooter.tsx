@@ -3,21 +3,55 @@ import styled from 'styled-components/macro';
 import reload from './assets/reload.png';
 import { SingleButton } from '../SingleButton';
 import { StyleConstants } from '../../../styles/StyleConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBet } from '../../pages/HomePage/slice/selectors';
+import { useBetSlice } from '../../pages/HomePage/slice';
 
 export function SideBarFooter() {
+  const { betSlip } = useSelector(selectBet);
+  const { actions } = useBetSlice();
+  const dispatch = useDispatch();
+
+  const calculateTotalOdds = () => {
+    return betSlip.reduce((accumulator, currentValue) => {
+      return (
+        accumulator *
+        (currentValue.betTeamId === currentValue.teamOneId
+          ? Number(currentValue.teamOneOdds)
+          : Number(currentValue.teamTwoOdds))
+      );
+    }, 1);
+  };
+
+  const calculateTotalAmountBet = () => {
+    return betSlip.reduce((accumulator, currentValue) => {
+      return accumulator + Number(currentValue.betAmount);
+    }, 0);
+  };
+
+  const calculateTotalPotential = () => {
+    return calculateTotalOdds() * calculateTotalAmountBet();
+  };
+
+  const onPlaceBetClick = () => {
+    dispatch(actions.sendBetSlipRequest(betSlip));
+  };
+
   return (
     <Wrapper>
       <HeaderTextSpan>Total</HeaderTextSpan>
       <Separator />
       <MainContentWrapper>
         <MainTextContentWrapper>
-          <MainTextSpan>Betting odds: 34.00</MainTextSpan>
-          <MainTextSpan>Amount bet: $100</MainTextSpan>
-          <MainTextSpan>Potential to collect $1000</MainTextSpan>
+          <MainTextSpan>Betting odds: {calculateTotalOdds()}</MainTextSpan>
+          <MainTextSpan>Amount bet: {calculateTotalAmountBet()}</MainTextSpan>
+          <MainTextSpan>
+            Potential to collect {calculateTotalPotential()}
+          </MainTextSpan>
         </MainTextContentWrapper>
         <MainActionContentWrapper>
-          <ReloadImage src={reload} />
-          <PlaceBetButton>Place bet</PlaceBetButton>
+          {/*<ReloadImage src={reload} />*/}
+          <PlaceBetButton onClick={onPlaceBetClick}>Place bet</PlaceBetButton>
         </MainActionContentWrapper>
       </MainContentWrapper>
     </Wrapper>
