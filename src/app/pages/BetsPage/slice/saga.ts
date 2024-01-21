@@ -4,8 +4,10 @@
 // function* doSomething() {}
 
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { request } from '../../../../utils/request';
+import { getBaseURL, request } from '../../../../utils/request';
 import { betHistoryActions as actions } from '.';
+
+const BASE_URL = getBaseURL();
 
 function* fetchBetHistorySaga(action) {
   try {
@@ -20,7 +22,7 @@ function* fetchBetHistorySaga(action) {
       ...(state && { state }),
     }).toString();
 
-    const url = `http://localhost:8080/api/bets?${queryParams}`;
+    const url = `${BASE_URL}/api/bets?${queryParams}`;
 
     const response = yield call(request, url, {
       method: 'GET',

@@ -8,21 +8,19 @@
 // }
 
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { request } from 'utils/request';
+import { getBaseURL, request } from 'utils/request';
 import { userActions } from './index';
+
+const BASE_URL = getBaseURL();
 
 function* signInSaga(action) {
   try {
-    const response = yield call(
-      request,
-      'http://localhost:8080/api/auth/signin',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(action.payload),
-      },
-    );
+    const response = yield call(request, `${BASE_URL}/api/auth/signin`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(action.payload),
+    });
     yield put(userActions.signInSuccess(response));
   } catch (error: any) {
     if (error.response) {
@@ -37,16 +35,12 @@ function* signInSaga(action) {
 
 function* signUpSaga(action) {
   try {
-    const response = yield call(
-      request,
-      'http://localhost:8080/api/auth/signup',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(action.payload),
-      },
-    );
+    const response = yield call(request, `${BASE_URL}/api/auth/signup`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(action.payload),
+    });
     yield put(userActions.signUpSuccess(response));
   } catch (error: any) {
     if (error.response) {
@@ -61,7 +55,7 @@ function* signUpSaga(action) {
 
 function* getMeSaga() {
   try {
-    const response = yield call(request, 'http://localhost:8080/api/auth/me', {
+    const response = yield call(request, `${BASE_URL}/api/auth/me`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -84,7 +78,7 @@ function* getMeSaga() {
 
 function* logoutSaga() {
   try {
-    yield call(request, 'http://localhost:8080/api/auth/logout', {
+    yield call(request, `${BASE_URL}0/api/auth/logout`, {
       method: 'POST',
       credentials: 'include',
     });

@@ -1,6 +1,8 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { request } from '../../../../utils/request';
+import { getBaseURL, request } from '../../../../utils/request';
 import { leaderboardActions as actions } from '.';
+
+const BASE_URL = getBaseURL();
 
 function* fetchLeaderboardSaga(action) {
   try {
@@ -11,7 +13,7 @@ function* fetchLeaderboardSaga(action) {
       ...(pageSize && { pageSize: pageSize.toString() }),
     }).toString();
 
-    const url = `http://localhost:8080/api/bets/leaderboard?${queryParams}`;
+    const url = `${BASE_URL}/api/bets/leaderboard?${queryParams}`;
 
     const response = yield call(request, url, {
       method: 'GET',

@@ -1,7 +1,9 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import { request } from 'utils/request';
+import { getBaseURL, request } from 'utils/request';
 import { betActions as actions } from './index';
 import { BetSlipItem } from './types';
+
+const BASE_URL = getBaseURL();
 
 function* fetchScheduleSaga(action) {
   try {
@@ -16,7 +18,7 @@ function* fetchScheduleSaga(action) {
       ...(teamName && { teamName }),
     }).toString();
 
-    const url = `http://localhost:8080/api/schedule?${queryParams}`;
+    const url = `${BASE_URL}/api/schedule?${queryParams}`;
 
     const response = yield call(request, url, {
       method: 'GET',
@@ -36,7 +38,7 @@ function* fetchScheduleSaga(action) {
 
 function* postBetSlip(action) {
   try {
-    const url = `http://localhost:8080/api/bets`;
+    const url = `${BASE_URL}/api/bets`;
 
     const response = yield call(request, url, {
       method: 'POST',

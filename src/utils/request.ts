@@ -6,6 +6,7 @@ export class ResponseError extends Error {
     this.response = response;
   }
 }
+
 /**
  * Parses the JSON returned by a network request
  *
@@ -51,4 +52,10 @@ export async function request(
   const fetchResponse = await fetch(url, options);
   const response = checkStatus(fetchResponse);
   return parseJSON(response);
+}
+
+export function getBaseURL() {
+  return process.env.NODE_ENV === 'production'
+    ? 'https://nba-backend-api.onrender.com'
+    : 'http://localhost:8080';
 }
