@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { NavBar } from 'app/components/NavBar';
 import { PageWrapper } from 'app/components/PageWrapper';
 import styled from 'styled-components/macro';
+import { LeaderBoard } from './Leaderboard';
 
 export function LeaderBoardPage() {
   return (
@@ -16,7 +17,9 @@ export function LeaderBoardPage() {
       </Helmet>
       <NavBar />
       <Wrapper>
-        <PageWrapper></PageWrapper>
+        <PageWrapper>
+          <LeaderBoard />
+        </PageWrapper>
       </Wrapper>
     </>
   );
@@ -27,8 +30,8 @@ const Wrapper = styled.header`
 
   ${PageWrapper} {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
   }
 `;
