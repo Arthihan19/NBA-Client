@@ -7,10 +7,18 @@ interface Props {
 }
 
 export function Balance(props: Props) {
+  const formatCurrency = amount => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
+
   return (
     <Wrapper>
       <Title>Balance:</Title>
-      <Value>${props.balanceAmount}</Value>
+      <Value>{formatCurrency(props.balanceAmount)}</Value>
       <CoinsImage src={coins} alt="Coins" />
     </Wrapper>
   );
@@ -20,6 +28,7 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 2em;
 `;
 
 const CoinsImage = styled.img`

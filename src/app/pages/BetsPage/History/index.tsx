@@ -76,10 +76,12 @@ export function History() {
           values={['All', 'Won', 'Lost', 'Pending']}
           onChange={value => setState(value)}
         />
-        <DateRangeFilter
-          onBeforeChange={value => setBeforeDate(new Date(value))}
-          onAfterChange={value => setAfterDate(new Date(value))}
-        />
+        <MarginWrapper>
+          <DateRangeFilter
+            onBeforeChange={value => setBeforeDate(new Date(value))}
+            onAfterChange={value => setAfterDate(new Date(value))}
+          />
+        </MarginWrapper>
       </FilterWrapper>
       <Separator />
       <HistoryGroup items={loadedHistory} />
@@ -100,7 +102,8 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  flex: 4;
+  width: 100%;
+  min-width: 800px;
 `;
 
 const ScheduleTitle = styled.a`
@@ -115,8 +118,12 @@ const ScheduleTitle = styled.a`
 const FilterWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 60%;
+  justify-content: center;
+`;
+
+const MarginWrapper = styled.div`
+  margin-left: 2em;
+  margin-right: 2em;
 `;
 
 const Separator = styled.hr`

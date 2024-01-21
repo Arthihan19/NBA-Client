@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import { StyleConstants } from '../../../styles/StyleConstants';
+import { media } from '../../../styles/media';
 
 interface Props {
   title: string;
@@ -31,7 +32,7 @@ const Item = styled.a<{ filled: boolean }>`
   cursor: pointer;
   text-decoration: none;
   display: flex;
-  padding: 0.6rem 2rem;
+  padding: 0.3rem 1rem;
   font-size: 0.9rem;
   font-weight: bold;
   align-items: center;
@@ -45,5 +46,9 @@ const Item = styled.a<{ filled: boolean }>`
 
   &:active {
     opacity: 0.4;
+  }
+
+  ${media.large()} {
+    padding: 0.6rem 2rem;
   }
 `;

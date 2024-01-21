@@ -58,13 +58,13 @@ export function Nav() {
 
 const Wrapper = styled.nav`
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex: 3;
+  justify-content: flex-end;
 `;
 
 const ButtonGroupWrapper = styled.div`
   display: flex;
-  flex: 2;
-  margin-right: 2em;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1em;
 `;

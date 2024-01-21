@@ -21,8 +21,7 @@ export function Logo() {
 const Wrapper = styled.div`
   display: flex;
   align-items: center;
-  flex: 2;
-  cursor: pointer; // Makes it clear that it's clickable
+  cursor: pointer;
 `;
 
 const LogoImage = styled.img`

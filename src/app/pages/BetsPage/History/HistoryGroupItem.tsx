@@ -26,6 +26,22 @@ export function HistoryGroupItem(props: Props) {
     return `${timeString}\n${dateString}`;
   };
 
+  const formatCurrency = amount => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
+
+  const calculatePotentialCollect = () => {
+    const odds =
+      props.item.betTeamId === props.item.teamOneId
+        ? props.item.teamOneOdds
+        : props.item.teamTwoOdds;
+    return formatCurrency(Number(props.item.betAmount) * Number(odds));
+  };
+
   return (
     <Wrapper>
       <HeaderWrapper>
@@ -57,7 +73,6 @@ export function HistoryGroupItem(props: Props) {
             </option>
           </SelectTeamDropDown>
           <ContentFooterSpan>
-            Betting odds:
             {props.item.betTeamId === props.item.teamOneId
               ? props.item.teamOneOdds
               : props.item.teamTwoOdds}
@@ -68,16 +83,17 @@ export function HistoryGroupItem(props: Props) {
           <CurrencyInputWrapper>
             <CurrencySymbol>$</CurrencySymbol>
             <CurrencyInput
-              type="number"
-              value={props.item.betAmount}
-              min="0"
+              type="text"
+              value={formatCurrency(props.item.betAmount)}
               disabled={true}
             />
           </CurrencyInputWrapper>
-          <ContentFooterSpan>Potential to collect: $20.00</ContentFooterSpan>
+          <ContentFooterSpan>
+            Potential to collect: {calculatePotentialCollect()}
+          </ContentFooterSpan>
         </ContentItemWrapper>
       </ContentWrapper>
-      <BetStatusWrapper>
+      <BetStatusWrapper state={props.item.state}>
         <BetStatusSpan>{props.item.state}</BetStatusSpan>
       </BetStatusWrapper>
     </Wrapper>
@@ -98,9 +114,9 @@ const Wrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
 `;
 
@@ -113,22 +129,24 @@ const TeamsVsWrapper = styled.div`
 
 const TeamNameSpan = styled.span`
   color: ${p => p.theme.textSecondary};
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-style: italic;
 `;
 
 const VsSpan = styled.span`
   color: ${p => p.theme.textSecondary};
-  font-size: 0.6rem;
+  font-size: 1rem;
   font-weight: bold;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  padding-left: 1em;
+  padding-right: 1em;
 `;
 
 const MatchDateTimeSpan = styled.span`
   color: ${p => p.theme.textSecondary};
   font-size: 0.8rem;
   font-weight: 300;
+  margin-top: 0.5em;
 `;
 
 const ContentWrapper = styled.div`
@@ -232,19 +250,24 @@ const ContentFooterSpan = styled.span`
   margin-top: 0.8em;
 `;
 
-const BetStatusWrapper = styled.div`
+const BetStatusWrapper = styled.div<{ state }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: ${p => p.theme.backgroundVariantLight};
+  background: ${p =>
+    p.state === 'LOST'
+      ? p.theme.secondary
+      : p.state === 'WON'
+      ? p.theme.success
+      : p.theme.backgroundVariantBlue};
   width: 100%;
   margin-top: 0.8em;
   padding: 0.4em;
 `;
 
 const BetStatusSpan = styled.span`
-  color: ${p => p.theme.textSecondary};
-  font-size: 0.8rem;
-  font-weight: 400;
+  color: ${p => p.theme.background};
+  font-size: 1rem;
+  font-weight: bold;
   font-style: italic;
 `;

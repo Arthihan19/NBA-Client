@@ -4,6 +4,7 @@ import { Logo } from './Logo';
 import { StyleConstants } from 'styles/StyleConstants';
 import { Nav } from './Nav';
 import { PageWrapper } from '../PageWrapper';
+import { media } from '../../../styles/media';
 
 export function NavBar() {
   return (
@@ -21,7 +22,8 @@ const Wrapper = styled.header`
   display: flex;
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   background-color: ${p => p.theme.background};
   z-index: 2;
 

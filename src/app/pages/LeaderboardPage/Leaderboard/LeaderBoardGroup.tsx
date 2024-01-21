@@ -35,7 +35,7 @@ export function LeaderBoardGroup(props: Props) {
 }
 
 const Table = styled.table`
-  width: 100%;
+  width: 800px;
   border-collapse: collapse;
   background: ${p => p.theme.background};
   margin-bottom: 1em;

@@ -27,7 +27,8 @@ export function ButtonGroup(props: Props) {
 
 const Wrapper = styled.nav`
   display: flex;
-  align-content: center;
+  align-items: center;
   justify-content: center;
+  width: 100%;
   flex: 1;
 `;

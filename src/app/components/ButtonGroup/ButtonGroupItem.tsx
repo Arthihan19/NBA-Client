@@ -13,37 +13,14 @@ export function ButtonGroupItem(props: Props) {
       <Item onClick={props.onClick} isSelected={props.isSelected}>
         {props.title}
       </Item>
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Documentation Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  Games*/}
-      {/*</Item>*/}
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Github Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  LeaderBoard*/}
-      {/*</Item>*/}
-      {/*<Item*/}
-      {/*  href=""*/}
-      {/*  target="_blank"*/}
-      {/*  title="Documentation Page"*/}
-      {/*  rel="noopener noreferrer"*/}
-      {/*>*/}
-      {/*  Bets*/}
-      {/*</Item>*/}
     </Wrapper>
   );
 }
 
 const Wrapper = styled.nav`
   display: flex;
-  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Item = styled.a<{ isSelected: boolean }>`
@@ -53,13 +30,15 @@ const Item = styled.a<{ isSelected: boolean }>`
   cursor: pointer;
   text-decoration: none;
   display: flex;
-  padding: 0.6rem 2rem;
+  padding: 0.6rem 1rem;
   font-size: 0.9rem;
   font-weight: bold;
   align-items: center;
   justify-content: center;
   text-align: center;
   flex: 1;
+  width: 100%;
+  height: 100%;
 
   &:hover {
     opacity: 0.8;
