@@ -4,70 +4,68 @@ import { DropDownFilter } from '../../../components/DropDownFilter';
 import { DateRangeFilter } from '../../../components/DateRangeFilter';
 import { SingleButton } from '../../../components/SingleButton';
 import { HistoryGroup } from './HistoryGroup';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBetHistory } from '../slice/selectors';
+import { BetHistoryItem } from '../slice/types';
+import { useBetHistorySlice } from '../slice';
 
 export function History() {
-  const testItems: BetHistoryItem[] = [
-    {
-      id: '1',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-      teamSelected: 'Team 1',
-      amountBet: '10.00',
-      status: 'Won',
-    },
-    {
-      id: '2',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-      teamSelected: 'Team 1',
-      amountBet: '10.00',
-      status: 'Lost',
-    },
-    {
-      id: '3',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-      teamSelected: 'Team 1',
-      amountBet: '10.00',
-      status: 'Pending',
-    },
-    {
-      id: '4',
-      dateTimeOfMatch: '2024-05-01T10:00:00',
-      teamOneName: 'Team 1',
-      teamTwoName: 'Team 2',
-      teamOneImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamTwoImage:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Los_Angeles_Lakers_logo.svg/1200px-Los_Angeles_Lakers_logo.svg.png',
-      teamOneOdds: '1.5',
-      teamTwoOdds: '2.5',
-      teamSelected: 'Team 1',
-      amountBet: '10.00',
-      status: 'Won',
-    },
-  ];
+  const { betHistory } = useSelector(selectBetHistory);
+  const { actions } = useBetHistorySlice();
+  const dispatch = useDispatch();
+
+  const [pageNumber, setPageNumber] = React.useState<number>(0);
+
+  const [loadedHistory, setLoadedHistory] = React.useState<BetHistoryItem[]>(
+    [],
+  );
+  const [beforeDate, setBeforeDate] = React.useState<Date>();
+  const [afterDate, setAfterDate] = React.useState<Date>();
+
+  const [state, setState] = React.useState<string>('');
+
+  React.useEffect(() => {
+    if (
+      loadedHistory.length > 0 &&
+      loadedHistory.every(item => betHistory.includes(item))
+    ) {
+      return;
+    }
+
+    setPageNumber(pageNumber + 1);
+    setLoadedHistory([...betHistory, ...loadedHistory]);
+  }, [betHistory]);
+
+  React.useEffect(() => {
+    if (state === 'All') {
+      setState('');
+    }
+
+    setPageNumber(0);
+    setLoadedHistory([]);
+
+    dispatch(
+      actions.fetchBetHistoryRequest({
+        currentPage: 0,
+        pageSize: 20,
+        beforeDate: beforeDate,
+        afterDate: afterDate,
+        state: state.toUpperCase(),
+      }),
+    );
+  }, [beforeDate, afterDate, state]);
+
+  const fetchResults = () => {
+    dispatch(
+      actions.fetchBetHistoryRequest({
+        currentPage: pageNumber,
+        pageSize: 20,
+        beforeDate: beforeDate,
+        afterDate: afterDate,
+        state: state.toUpperCase(),
+      }),
+    );
+  };
 
   return (
     <Wrapper>
@@ -75,13 +73,24 @@ export function History() {
       <FilterWrapper>
         <DropDownFilter
           heading={'Result filter'}
-          values={['Won', 'Lost', 'Pending']}
+          values={['All', 'Won', 'Lost', 'Pending']}
+          onChange={value => setState(value)}
         />
-        <DateRangeFilter />
+        <DateRangeFilter
+          onBeforeChange={value => setBeforeDate(new Date(value))}
+          onAfterChange={value => setAfterDate(new Date(value))}
+        />
       </FilterWrapper>
       <Separator />
-      <HistoryGroup items={testItems} />
-      <SingleButton title={'Load more'} filled={false} />
+      <HistoryGroup items={loadedHistory} />
+      <SingleButton
+        title={'Load more'}
+        filled={false}
+        onClick={() => {
+          setPageNumber(pageNumber + 1);
+          fetchResults();
+        }}
+      />
     </Wrapper>
   );
 }

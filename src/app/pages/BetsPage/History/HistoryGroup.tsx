@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import { HistoryGroupItem } from './HistoryGroupItem';
+import { BetHistoryItem } from '../slice/types';
 
 interface Props {
   items: BetHistoryItem[];

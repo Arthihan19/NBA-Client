@@ -1,6 +1,7 @@
 import { ThemeState } from 'styles/theme/slice/types';
 import { UserState } from 'app/Authentication/slice/types';
 import { BetState } from 'app/pages/HomePage/slice/types';
+import { BetHistoryState } from 'app/pages/BetsPage/slice/types';
 // [IMPORT NEW CONTAINERSTATE ABOVE] < Needed for generating containers seamlessly
 
 /*
@@ -13,5 +14,6 @@ export interface RootState {
   theme?: ThemeState;
   user?: UserState;
   bet?: BetState;
+  betHistory?: BetHistoryState;
   // [INSERT NEW REDUCER KEY ABOVE] < Needed for generating containers seamlessly
 }

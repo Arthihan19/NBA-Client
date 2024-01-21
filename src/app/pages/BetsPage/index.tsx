@@ -20,7 +20,6 @@ export function BetsPage() {
       <Wrapper>
         <PageWrapper>
           <History />
-          <Sidebar />
         </PageWrapper>
       </Wrapper>
     </>

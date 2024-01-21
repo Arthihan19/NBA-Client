@@ -6,14 +6,20 @@ import { Balance } from './Balance';
 import { useUserSlice } from '../../Authentication/slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../Authentication/slice/selectors';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export function Nav() {
+  const location = useLocation();
   const navigate = useNavigate();
   const { actions } = useUserSlice();
   const dispatch = useDispatch();
   const userState = useSelector(selectUser);
+
+  const paths = ['/', '/leaderboard', '/history'];
+  const selectedButtonIndex = paths.findIndex(
+    path => path === location.pathname,
+  );
 
   const onLogOut = () => {
     dispatch(actions.logoutRequest());
@@ -33,7 +39,9 @@ export function Nav() {
             { title: 'Leader board', onClick: () => navigate('/leaderboard') },
             { title: 'History', onClick: () => navigate('/history') },
           ]}
-          selectedButtonIndex={0}
+          selectedButtonIndex={
+            selectedButtonIndex !== -1 ? selectedButtonIndex : 0
+          }
         />
       </ButtonGroupWrapper>
       {userState.user !== null ? (

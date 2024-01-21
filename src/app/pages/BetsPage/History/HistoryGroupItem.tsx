@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
 import { StyleConstants } from '../../../../styles/StyleConstants';
+import { BetHistoryItem } from '../slice/types';
+import { BetStateScheduleItem } from '../../HomePage/slice/types';
 
 interface Props {
   item: BetHistoryItem;
@@ -8,10 +10,8 @@ interface Props {
 
 export function HistoryGroupItem(props: Props) {
   const formatDateTime = dateTime => {
-    // Parse the date as UTC
-    const date = new Date(dateTime + 'Z'); // Adding 'Z' ensures it's interpreted as UTC
+    const date = new Date(dateTime);
 
-    // Format the time and date as "HH:MM UTC DD/MM/YYYY"
     const timeString =
       date.getUTCHours().toString().padStart(2, '0') +
       ':' +
@@ -30,38 +30,55 @@ export function HistoryGroupItem(props: Props) {
     <Wrapper>
       <HeaderWrapper>
         <TeamsVsWrapper>
-          <TeamNameSpan>{props.item.teamOneName}</TeamNameSpan>
+          <TeamNameSpan>{props.item.teamOne}</TeamNameSpan>
           <VsSpan>VS</VsSpan>
-          <TeamNameSpan>{props.item.teamTwoName}</TeamNameSpan>
+          <TeamNameSpan>{props.item.teamTwo}</TeamNameSpan>
         </TeamsVsWrapper>
         <MatchDateTimeSpan>
-          {formatDateTime(props.item.dateTimeOfMatch)}
+          {formatDateTime(props.item.matchDate)}
         </MatchDateTimeSpan>
       </HeaderWrapper>
       <ContentWrapper>
         <ContentItemWrapper>
           <ContentItemHeaderSpan>Team to win</ContentItemHeaderSpan>
-          <SelectTeamDropDown>
-            <option key={0} value={props.item.teamOneName}>
-              {props.item.teamOneName}
+          <SelectTeamDropDown
+            disabled={true}
+            value={
+              props.item.betTeamId === props.item.teamOneId
+                ? props.item.teamOneId
+                : props.item.teamTwoId
+            }
+          >
+            <option key={0} value={props.item.teamOneId}>
+              {props.item.teamOne}
             </option>
-            <option key={1} value={props.item.teamTwoName}>
-              {props.item.teamTwoName}
+            <option key={1} value={props.item.teamTwoId}>
+              {props.item.teamTwo}
             </option>
           </SelectTeamDropDown>
-          <ContentFooterSpan>Betting odds: 2.35</ContentFooterSpan>
+          <ContentFooterSpan>
+            Betting odds:
+            {props.item.betTeamId === props.item.teamOneId
+              ? props.item.teamOneOdds
+              : props.item.teamTwoOdds}
+          </ContentFooterSpan>
         </ContentItemWrapper>
         <ContentItemWrapper>
           <ContentItemHeaderSpan>Betting amount</ContentItemHeaderSpan>
           <CurrencyInputWrapper>
             <CurrencySymbol>$</CurrencySymbol>
-            <CurrencyInput type="number" min="0" />
+            <CurrencyInput
+              type="number"
+              value={props.item.betAmount}
+              min="0"
+              disabled={true}
+            />
           </CurrencyInputWrapper>
           <ContentFooterSpan>Potential to collect: $20.00</ContentFooterSpan>
         </ContentItemWrapper>
       </ContentWrapper>
       <BetStatusWrapper>
-        <BetStatusSpan>{props.item.status}</BetStatusSpan>
+        <BetStatusSpan>{props.item.state}</BetStatusSpan>
       </BetStatusWrapper>
     </Wrapper>
   );
