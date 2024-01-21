@@ -12,6 +12,7 @@ import { Spinner } from '../Spinner';
 export function SideBarFooter() {
   const { betSlip, loading } = useSelector(selectBet);
   const { actions } = useBetSlice();
+  const userSlice = useUserSlice();
   const dispatch = useDispatch();
 
   const [showSuccess, setShowSuccess] = React.useState<boolean>(false);
@@ -35,6 +36,15 @@ export function SideBarFooter() {
     }, 0);
   };
 
+  React.useEffect(() => {
+    if (!loading && showSuccess) {
+      setTimeout(() => {
+        setShowSuccess(false);
+        dispatch(userSlice.actions.getMeRequest());
+      }, 3000);
+    }
+  }, [loading]);
+
   const calculateTotalPotential = () => {
     const totalPotential =
       Number(calculateTotalOdds()) * Number(calculateTotalAmountBet());
@@ -49,10 +59,6 @@ export function SideBarFooter() {
   const onPlaceBetClick = () => {
     dispatch(actions.sendBetSlipRequest(betSlip));
     setShowSuccess(true);
-
-    setTimeout(() => {
-      setShowSuccess(false);
-    }, 3000);
   };
 
   const formatCurrency = amount => {

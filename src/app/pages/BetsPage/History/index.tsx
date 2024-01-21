@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectBetHistory } from '../slice/selectors';
 import { BetHistoryItem } from '../slice/types';
 import { useBetHistorySlice } from '../slice';
+import { Spinner } from '../../../components/Spinner';
 
 export function History() {
-  const { betHistory } = useSelector(selectBetHistory);
+  const { betHistory, loading } = useSelector(selectBetHistory);
   const { actions } = useBetHistorySlice();
   const dispatch = useDispatch();
 
@@ -84,15 +85,31 @@ export function History() {
         </MarginWrapper>
       </FilterWrapper>
       <Separator />
-      <HistoryGroup items={loadedHistory} />
-      <SingleButton
-        title={'Load more'}
-        filled={false}
-        onClick={() => {
-          setPageNumber(pageNumber + 1);
-          fetchResults();
-        }}
-      />
+      {loading && loadedHistory.length <= 0 ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : loadedHistory.length > 0 ? (
+        <>
+          <HistoryGroup items={loadedHistory} />
+          {loading ? (
+            <SpinnerWrapper>
+              <Spinner />
+            </SpinnerWrapper>
+          ) : (
+            <SingleButton
+              title={'Load more'}
+              filled={false}
+              onClick={() => {
+                setPageNumber(pageNumber + 1);
+                fetchResults();
+              }}
+            />
+          )}
+        </>
+      ) : (
+        <EmptyText>No bets to show!</EmptyText>
+      )}
     </Wrapper>
   );
 }
@@ -104,6 +121,20 @@ const Wrapper = styled.div`
   flex-direction: column;
   width: 100%;
   min-width: 800px;
+  margin-bottom: 5em;
+`;
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+`;
+
+const EmptyText = styled.span`
+  color: ${p => p.theme.primary};
+  font-size: 1.5rem;
+  font-weight: bold;
 `;
 
 const ScheduleTitle = styled.a`

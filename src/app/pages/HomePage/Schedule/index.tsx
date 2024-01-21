@@ -171,7 +171,7 @@ export function Schedule() {
         </FilterItemWrapper>
       </FilterWrapper>
       <Separator />
-      {loading ? (
+      {loading && loadedSchedule.length <= 0 ? (
         <SpinnerWrapper>
           <Spinner />
         </SpinnerWrapper>
@@ -190,14 +190,19 @@ export function Schedule() {
               </>
             )}
           </ContentWrapper>
-          <SingleButton
-            title={'Load more'}
-            filled={false}
-            onClick={() => {
-              setPageNumber(pageNumber + 1);
-              fetchResults();
-            }}
-          />
+          {loading ? (
+            <SpinnerWrapper>
+              <Spinner />
+            </SpinnerWrapper>
+          ) : (
+            <SingleButton
+              title={'Load more'}
+              filled={false}
+              onClick={() => {
+                fetchResults();
+              }}
+            />
+          )}
         </>
       )}
     </Wrapper>
@@ -209,6 +214,7 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 5em;
 `;
 
 const SpinnerWrapper = styled.div`

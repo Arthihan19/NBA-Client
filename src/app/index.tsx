@@ -20,12 +20,11 @@ export function App() {
   const { i18n } = useTranslation();
 
   const { actions } = useUserSlice();
-  const { loading } = useSelector(selectBet);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.getMeRequest());
-  }, [dispatch, actions, loading]);
+  }, [dispatch, actions]);
 
   return (
     <BrowserRouter>
@@ -38,9 +37,16 @@ export function App() {
       </Helmet>
 
       <Routes>
-        <Route path="/" element={<HomePage />} />
         <Route path="/signin" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <HomePage />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/history"
           element={
