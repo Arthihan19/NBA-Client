@@ -76,10 +76,14 @@ const Wrapper = styled.div`
   border-radius: ${StyleConstants.BORDER_RADIUS_SMALL};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   margin: 1em;
+  width: 100%;
+  height: 100%;
 `;
 
 const MainContentWrapper = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
 `;
 
 const PlusIcon = styled.img`
@@ -112,6 +116,8 @@ const BetOverlay = styled.div`
   transition: opacity 0.3s;
   cursor: pointer;
   padding: 1em;
+  width: 100%;
+  height: 100%;
 
   &:hover {
     opacity: 1;
@@ -133,6 +139,8 @@ const TeamContentWrapper = styled.div`
   align-items: center;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 
   &:hover ${BetOverlay} {
     opacity: 1;

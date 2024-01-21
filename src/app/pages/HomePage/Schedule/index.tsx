@@ -8,9 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useBetSlice } from '../slice';
 import { selectBet } from '../slice/selectors';
 import { BetSlipItem, BetStateScheduleItem } from '../slice/types';
+import { Sidebar } from '../../../components/Sidebar';
+import { media, sizes } from '../../../../styles/media';
+import { useState } from 'react';
+import { Spinner } from '../../../components/Spinner';
 
 export function Schedule() {
-  const { schedule } = useSelector(selectBet);
+  const { loading, schedule } = useSelector(selectBet);
   const { actions } = useBetSlice();
   const dispatch = useDispatch();
 
@@ -48,8 +52,8 @@ export function Schedule() {
       actions.fetchSchedule({
         currentPage: 0,
         pageSize: 20,
-        beforeDate: beforeDate,
-        afterDate: afterDate,
+        beforeDate: beforeDate ? beforeDate.toISOString() : undefined,
+        afterDate: afterDate ? afterDate.toISOString() : undefined,
         teamName: teamName,
       }),
     );
@@ -60,8 +64,8 @@ export function Schedule() {
       actions.fetchSchedule({
         currentPage: pageNumber,
         pageSize: 20,
-        beforeDate: beforeDate,
-        afterDate: afterDate,
+        beforeDate: beforeDate ? beforeDate.toISOString() : undefined,
+        afterDate: afterDate ? afterDate.toISOString() : undefined,
         teamName: teamName,
       }),
     );
@@ -96,11 +100,25 @@ export function Schedule() {
     const betItem: BetSlipItem = {
       ...item,
       betTeamId: betTeamId,
-      betAmount: '0.00',
+      betAmount: 0,
     };
 
     dispatch(actions.addToBetSlip(betItem));
   };
+
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <Wrapper>
@@ -153,15 +171,35 @@ export function Schedule() {
         </FilterItemWrapper>
       </FilterWrapper>
       <Separator />
-      <ScheduleGroup items={loadedSchedule} onClick={onAddBetClick} />
-      <SingleButton
-        title={'Load more'}
-        filled={false}
-        onClick={() => {
-          setPageNumber(pageNumber + 1);
-          fetchResults();
-        }}
-      />
+      {loading ? (
+        <SpinnerWrapper>
+          <Spinner />
+        </SpinnerWrapper>
+      ) : (
+        <>
+          <ContentWrapper>
+            {windowWidth >= sizes.large ? (
+              <>
+                <ScheduleGroup items={loadedSchedule} onClick={onAddBetClick} />
+                <Sidebar />
+              </>
+            ) : (
+              <>
+                <Sidebar />
+                <ScheduleGroup items={loadedSchedule} onClick={onAddBetClick} />
+              </>
+            )}
+          </ContentWrapper>
+          <SingleButton
+            title={'Load more'}
+            filled={false}
+            onClick={() => {
+              setPageNumber(pageNumber + 1);
+              fetchResults();
+            }}
+          />
+        </>
+      )}
     </Wrapper>
   );
 }
@@ -171,7 +209,35 @@ const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  flex: 4;
+`;
+
+const SpinnerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2em;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-bottom: 2em;
+
+  ${media.large()} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: row;
+  }
+
+  ${media.xlarge()} {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: row;
+  }
 `;
 
 const FilterItemWrapper = styled.div`

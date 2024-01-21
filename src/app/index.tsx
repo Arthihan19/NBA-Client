@@ -12,18 +12,20 @@ import { LeaderBoardPage } from './pages/LeaderboardPage/Loadable';
 import { SignUpPage } from './pages/SignupPage/Loadable';
 import PrivateRoute from './components/PrivateRoute';
 import { useUserSlice } from './Authentication/slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { selectBet } from './pages/HomePage/slice/selectors';
 
 export function App() {
   const { i18n } = useTranslation();
 
   const { actions } = useUserSlice();
+  const { loading } = useSelector(selectBet);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(actions.getMeRequest());
-  }, [dispatch, actions]);
+  }, [dispatch, actions, loading]);
 
   return (
     <BrowserRouter>

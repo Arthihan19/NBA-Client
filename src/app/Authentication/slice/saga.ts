@@ -28,8 +28,6 @@ function* signInSaga(action) {
     if (error.response) {
       const errorBody = yield call([error.response, 'json']);
 
-      console.log(errorBody.message);
-
       yield put(userActions.signInFailure(errorBody.message));
     } else {
       yield put(userActions.signInFailure(error.message));
@@ -54,8 +52,6 @@ function* signUpSaga(action) {
     if (error.response) {
       const errorBody = yield call([error.response, 'json']);
 
-      console.log(errorBody.message);
-
       yield put(userActions.signUpFailure(errorBody.message));
     } else {
       yield put(userActions.signUpFailure(error.message));
@@ -69,8 +65,6 @@ function* getMeSaga() {
       method: 'GET',
       credentials: 'include',
     });
-
-    console.log(response);
 
     yield put(userActions.getMeSuccess(response));
   } catch (error: any) {

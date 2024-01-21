@@ -20,7 +20,6 @@ export function HomePage() {
       <Wrapper>
         <PageWrapper>
           <Schedule />
-          <Sidebar />
         </PageWrapper>
       </Wrapper>
     </>
@@ -29,12 +28,4 @@ export function HomePage() {
 
 const Wrapper = styled.header`
   display: flex;
-
-  ${PageWrapper} {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 100%;
-  }
 `;

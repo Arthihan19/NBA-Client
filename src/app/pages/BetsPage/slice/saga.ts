@@ -15,8 +15,8 @@ function* fetchBetHistorySaga(action) {
     const queryParams = new URLSearchParams({
       ...(currentPage && { page: currentPage.toString() }),
       ...(pageSize && { pageSize: pageSize.toString() }),
-      ...(beforeDate && { beforeDate: beforeDate.toISOString() }),
-      ...(afterDate && { afterDate: afterDate.toISOString() }),
+      ...(beforeDate && { beforeDate: beforeDate }),
+      ...(afterDate && { afterDate: afterDate }),
       ...(state && { state }),
     }).toString();
 

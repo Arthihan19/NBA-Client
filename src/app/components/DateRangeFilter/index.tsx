@@ -14,6 +14,11 @@ export function DateRangeFilter(props: Props) {
   const oneMonthLater = new Date(today);
   oneMonthLater.setDate(oneMonthLater.getDate() + 30);
 
+  React.useEffect(() => {
+    props.onAfterChange && props.onAfterChange(oneDayAgo.toISOString());
+    props.onBeforeChange && props.onBeforeChange(oneMonthLater.toISOString());
+  }, []);
+
   const formatDate = (date: Date) => date.toISOString().split('T')[0];
 
   return (

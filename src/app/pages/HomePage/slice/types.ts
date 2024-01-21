@@ -12,7 +12,7 @@ export interface BetState {
 }
 
 export interface BetSlipItem extends BetStateScheduleItem {
-  betAmount: string;
+  betAmount: number;
   betTeamId: string;
 }
 

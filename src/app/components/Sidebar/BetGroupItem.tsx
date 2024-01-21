@@ -3,8 +3,7 @@ import styled from 'styled-components/macro';
 import binIcon from './assets/bin.png';
 import { StyleConstants } from '../../../styles/StyleConstants';
 import { BetSlipItem } from '../../pages/HomePage/slice/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectBet } from '../../pages/HomePage/slice/selectors';
+import { useDispatch } from 'react-redux';
 import { useBetSlice } from '../../pages/HomePage/slice';
 
 interface Props {
@@ -20,10 +19,18 @@ export function BetGroupItem(props: Props) {
   };
 
   const handleBetSlipItemChange = (id, betAmount, betTeamId) => {
+    let formattedBetAmount = parseFloat(betAmount);
+
+    if (isNaN(formattedBetAmount) || formattedBetAmount < 0) {
+      formattedBetAmount = 0;
+    } else if (formattedBetAmount > 1000000) {
+      formattedBetAmount = 1000000;
+    }
+
     dispatch(
       actions.updateBetSlip({
         id: id,
-        betAmount: betAmount,
+        betAmount: formattedBetAmount,
         betTeamId: betTeamId,
       }),
     );
@@ -46,17 +53,28 @@ export function BetGroupItem(props: Props) {
     return `${timeString}\n${dateString}`;
   };
 
+  const formatCurrency = amount => {
+    const formatter = new Intl.NumberFormat('en-US', {
+      maximumSignificantDigits: 5,
+      notation: 'compact',
+      compactDisplay: 'short',
+    });
+    return formatter.format(amount);
+  };
+
   return (
     <Wrapper>
       <HeaderWrapper>
-        <TeamsVsWrapper>
-          <TeamNameSpan>{props.item.teamOne}</TeamNameSpan>
-          <VsSpan>VS</VsSpan>
-          <TeamNameSpan>{props.item.teamTwo}</TeamNameSpan>
-        </TeamsVsWrapper>
-        <MatchDateTimeSpan>
-          {formatDateTime(props.item.matchDate)}
-        </MatchDateTimeSpan>
+        <MatchDetailsWrapper>
+          <TeamsVsWrapper>
+            <TeamNameSpan>{props.item.teamOne}</TeamNameSpan>
+            <VsSpan>VS</VsSpan>
+            <TeamNameSpan>{props.item.teamTwo}</TeamNameSpan>
+          </TeamsVsWrapper>
+          <MatchDateTimeSpan>
+            {formatDateTime(props.item.matchDate)}
+          </MatchDateTimeSpan>
+        </MatchDetailsWrapper>
         <DeleteIcon
           src={binIcon}
           alt="delete icon"
@@ -100,20 +118,24 @@ export function BetGroupItem(props: Props) {
             <CurrencySymbol>$</CurrencySymbol>
             <CurrencyInput
               type="number"
-              value={props.item.betAmount}
+              value={props.item.betAmount.toString().replace(/^0+/, '')}
               onChange={event =>
                 handleBetSlipItemChange(
                   props.item.id,
-                  event.target.value,
+                  Math.max(
+                    0,
+                    Number(parseFloat(event.target.value).toFixed(2)),
+                  ),
                   props.item.betTeamId,
                 )
               }
               min="0"
+              step="0.01"
             />
           </CurrencyInputWrapper>
           <ContentFooterSpan>
             Potential to collect: $
-            {Math.round(
+            {formatCurrency(
               Number(props.item.betAmount) *
                 Number(
                   props.item.betTeamId === props.item.teamOneId
@@ -148,6 +170,14 @@ const HeaderWrapper = styled.div`
   width: 100%;
 `;
 
+const MatchDetailsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex: 1;
+`;
+
 const TeamsVsWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -157,22 +187,24 @@ const TeamsVsWrapper = styled.div`
 
 const TeamNameSpan = styled.span`
   color: ${p => p.theme.textSecondary};
-  font-size: 0.8rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 500;
+  font-style: italic;
 `;
 
 const VsSpan = styled.span`
   color: ${p => p.theme.textSecondary};
-  font-size: 0.6rem;
+  font-size: 1rem;
   font-weight: bold;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
+  padding-left: 1em;
+  padding-right: 1em;
 `;
 
 const MatchDateTimeSpan = styled.span`
   color: ${p => p.theme.textSecondary};
   font-size: 0.8rem;
   font-weight: 300;
+  margin-top: 0.5em;
 `;
 
 const DeleteIcon = styled.img`
@@ -262,7 +294,7 @@ const CurrencyInput = styled.input`
   padding-left: 0.4em;
   font-size: inherit;
   color: inherit;
-  max-width: 6em;
+  width: 100%;
 
   &:hover {
     border-color: ${p => p.theme.primary};

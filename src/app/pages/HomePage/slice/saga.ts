@@ -11,8 +11,8 @@ function* fetchScheduleSaga(action) {
     const queryParams = new URLSearchParams({
       ...(currentPage && { page: currentPage.toString() }),
       ...(pageSize && { pageSize: pageSize.toString() }),
-      ...(beforeDate && { beforeDate: beforeDate.toISOString() }),
-      ...(afterDate && { afterDate: afterDate.toISOString() }),
+      ...(beforeDate && { beforeDate: beforeDate }),
+      ...(afterDate && { afterDate: afterDate }),
       ...(teamName && { teamName }),
     }).toString();
 
@@ -56,8 +56,8 @@ function* postBetSlip(action) {
     yield put(actions.sendBetSlipRequestSuccess(response));
   } catch (error: any) {
     if (error.response) {
-      const errorBody = yield call([error.response, 'json']);
-      yield put(actions.sendBetSlipRequestFailure(errorBody.error));
+      const errorParsed = yield call([error.response, 'json']);
+      yield put(actions.sendBetSlipRequestFailure(errorParsed.message));
     } else {
       yield put(actions.sendBetSlipRequestFailure(error.message));
     }

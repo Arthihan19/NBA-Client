@@ -48,8 +48,8 @@ export function History() {
       actions.fetchBetHistoryRequest({
         currentPage: 0,
         pageSize: 20,
-        beforeDate: beforeDate,
-        afterDate: afterDate,
+        beforeDate: beforeDate ? beforeDate.toISOString() : undefined,
+        afterDate: afterDate ? afterDate.toISOString() : undefined,
         state: state.toUpperCase(),
       }),
     );
@@ -60,8 +60,8 @@ export function History() {
       actions.fetchBetHistoryRequest({
         currentPage: pageNumber,
         pageSize: 20,
-        beforeDate: beforeDate,
-        afterDate: afterDate,
+        beforeDate: beforeDate ? beforeDate.toISOString() : undefined,
+        afterDate: afterDate ? afterDate.toISOString() : undefined,
         state: state.toUpperCase(),
       }),
     );
