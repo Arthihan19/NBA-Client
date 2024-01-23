@@ -5,6 +5,7 @@ import { StyleConstants } from '../../../styles/StyleConstants';
 interface Props {
   onBeforeChange?: (value: string) => void;
   onAfterChange?: (value: string) => void;
+  daysAgo?: Date;
 }
 
 export function DateRangeFilter(props: Props) {
@@ -15,7 +16,10 @@ export function DateRangeFilter(props: Props) {
   oneMonthLater.setDate(oneMonthLater.getDate() + 30);
 
   React.useEffect(() => {
-    props.onAfterChange && props.onAfterChange(oneDayAgo.toISOString());
+    props.onAfterChange &&
+      props.onAfterChange(
+        props.daysAgo ? props.daysAgo.toISOString() : oneDayAgo.toISOString(),
+      );
     props.onBeforeChange && props.onBeforeChange(oneMonthLater.toISOString());
   }, []);
 

@@ -68,6 +68,13 @@ export function History() {
     );
   };
 
+  const getDaysAgo = () => {
+    const today = new Date();
+    const oneWeekAgo = new Date(today);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    return oneWeekAgo;
+  };
+
   return (
     <Wrapper>
       <ScheduleTitle>Betting History</ScheduleTitle>
@@ -79,6 +86,7 @@ export function History() {
         />
         <MarginWrapper>
           <DateRangeFilter
+            daysAgo={getDaysAgo()}
             onBeforeChange={value => setBeforeDate(new Date(value))}
             onAfterChange={value => setAfterDate(new Date(value))}
           />
