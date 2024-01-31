@@ -35,7 +35,7 @@ export function DateRangeFilter(props: Props) {
           }
           type="date"
           defaultValue={formatDate(oneDayAgo)}
-          min={formatDate(oneDayAgo)}
+          min={formatDate(props.daysAgo ? props.daysAgo : oneDayAgo)}
           max={formatDate(oneMonthLater)}
           placeholder="Start Date"
         />
@@ -45,7 +45,7 @@ export function DateRangeFilter(props: Props) {
             props.onBeforeChange && props.onBeforeChange(e.target.value)
           }
           type="date"
-          min={formatDate(oneDayAgo)}
+          min={formatDate(props.daysAgo ? props.daysAgo : oneDayAgo)}
           max={formatDate(oneMonthLater)}
           defaultValue={formatDate(oneMonthLater)}
           placeholder="End Date"
