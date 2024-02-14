@@ -44,7 +44,7 @@ And the backend is hosted here: https://nba-backend-api.onrender.com/
 
 ## Usage
 
-- `git clone [https://github.com/LOL/nba-LOL](https://github.com/Arthihan19/NBA-Client)`
+- `git clone https://github.com/Arthihan19/NBA-Client`
 - Please use yarn as this was made using [Create React App](https://github.com/facebook/create-react-app) that recommends it over npm
 - `cd nba && yarn install`
 - `yarn start`
